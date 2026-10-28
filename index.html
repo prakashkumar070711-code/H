@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAVAN TERMINAL</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #020503;
+  color: #00ff66;
+  font-family: monospace;
+}
+
+header {
+  text-align: center;
+  padding: 18px 5px;
+  border-bottom: 1px solid #00ff66;
+  text-shadow: 0 0 12px #00ff66;
+}
+
+h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.badge {
+  color: #ff3333;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.container {
+  padding: 18px;
+  max-width: 600px;
+  margin: auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  background: #061109;
+  color: #00ff66;
+  border: 1px solid #00ff66;
+  font-family: monospace;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px;
+  background: #00ff66;
+  color: black;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  background: white;
+}
+
+.notice {
+  border: 1px solid #ff3333;
+  color: #ff5555;
+  padding: 10px;
+  font-size: 12px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.terminal {
+  border: 1px solid #087d39;
+  background: #010301;
+  padding: 14px;
+  min-height: 230px;
+  box-shadow: 0 0 15px #003d19;
+  overflow-wrap: anywhere;
+}
+
+.line {
+  margin: 0 0 12px;
+  font-size: 13px;
+  animation: appear .3s ease;
+}
+
+.red {
+  color: #ff3333;
+}
+
+.white {
+  color: #eeeeee;
+}
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.progress {
+  height: 12px;
+  border: 1px solid #00ff66;
+  margin-top: 15px;
+}
+
+#bar {
+  height: 100%;
+  width: 0%;
+  background: #00ff66;
+  transition: width .3s;
+}
+
+footer {
+  text-align: center;
+  color: #43875b;
+  font-size: 11px;
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>☠ RAVAN TERMINAL ☠</h1>
+  <div class="badge">ADVANCED VISUAL SIMULATOR</div>
+</header>
+
+<div class="container">
+
+  <div class="notice">
+    DEMO MODE — NO REAL HACKING
+  </div>
+
+  <label for="number">TARGET NUMBER (DEMO ONLY)</label>
+
+  <input
+    id="number"
+    type="text"
+    inputmode="numeric"
+    maxlength="10"
+    placeholder="Enter a demo number"
+  >
+
+  <button onclick="startScan()">▶ START SIMULATION</button>
+
+  <button onclick="resetTerminal()"
+          style="background:#161f19;color:#00ff66;border:1px solid #00ff66">
+    ↻ RESET TERMINAL
+  </button>
+
+  <h3> SYSTEM CONSOLE</h3>
+
+  <div class="terminal" id="terminal">
+    <p class="line">RAVAN OS [Version 3.0]</p>
+    <p class="line">Waiting for demo input...</p>
+    <p class="line white">Ready to start simulation.</p>
+  </div>
+
+  <div class="progress">
+    <div id="bar"></div>
+  </div>
+
+  <p id="status">STATUS: STANDBY</p>
+
+  <div class="notice">
+    This is a visual prank. No device or phone number is accessed.
+  </div>
+
+</div>
+
+<footer>
+  RAVAN TERMINAL © 2026 | SIMULATION ONLY
+</footer>
+
+<script>
+let running = false;
+let timers = [];
+
+function addLine(text, color = "") {
+  const terminal = document.getElementById("terminal");
+  const p = document.createElement("p");
+
+  p.className = "line " + color;
+  p.textContent = text;
+
+  terminal.appendChild(p);
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function later(fn, delay) {
+  const id = setTimeout(fn, delay);
+  timers.push(id);
+}
+
+function startScan() {
+  if (running) return;
+
+  const input = document.getElementById("number");
+  const number = input.value.trim();
+
+  if (!/^\d{10}$/.test(number)) {
+    alert("Enter a 10-digit demo number.");
+    return;
+  }
+
+  // Mask the number for privacy.
+  const masked = number.slice(0, 4) + "XXXXXX";
+
+  running = true;
+  document.getElementById("terminal").innerHTML = "";
+  document.getElementById("bar").style.width = "0%";
+  document.getElementById("status").textContent =
+    "STATUS: SIMULATION RUNNING";
+
+  addLine("[+] RAVAN TERMINAL INITIALIZED");
+  addLine("[+] TARGET: " + masked);
+  addLine("[*] Starting visual simulation...");
+
+  const steps = [
+    ["[*] Initializing demo environment...", 15],
+    ["[+] Loading visual modules...", 30],
+    ["[*] Simulating network scan...", 45],
+    ["[!] Firewall test: DEMO ONLY", 60],
+    ["[+] Generating fake diagnostic report...", 80],
+    ["[+] SIMULATION COMPLETE", 100]
+  ];
+
+  steps.forEach((step, index) => {
+    later(() => {
+      if (!running) return;
+
+      addLine(
+        step[0],
+        step[0].includes("[!]") ? "red" : ""
+      );
+
+      document.getElementById("bar").style.width =
+        step[1] + "%";
+
+      if (index === steps.length - 1) {
+        addLine("[+] ACCESS GRANTED — DEMO", "white");
+        addLine("[+] No device was accessed.");
+        document.getElementById("status").textContent =
+          "STATUS: DEMO COMPLETE";
+        running = false;
+      }
+    }, (index + 1) * 1100);
+  });
+}
+
+function resetTerminal() {
+  timers.forEach(clearTimeout);
+  timers = [];
+  running = false;
+
+  document.getElementById("terminal").innerHTML =
+    '<p class="line">RAVAN OS [Version 3.0]</p>' +
+    '<p class="line">Waiting for demo input...</p>';
+
+  document.getElementById("bar").style.width = "0%";
+  document.getElementById("status").textContent =
+    "STATUS: STANDBY";
+}
+</script>
+
+</body>
+</html>
